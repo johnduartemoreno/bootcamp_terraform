@@ -6,15 +6,20 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
+locals {
+  extra_tag = "extra-tag"
+}
+
 # Recursos : Instancia EC2
 
 resource "aws_instance" "mi_instancia" {
   for_each = var.service_names
-  
+
   ami           = "ami-0ebfd941bbafe70c6"
   instance_type = "t2.micro"
 
   tags = {
-    Name = "MiInstanciaTerraform"
+    Extratag = local.extra_tag
+    Name     = "EC2- ${each.key}"
   }
 }
