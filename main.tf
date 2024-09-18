@@ -23,3 +23,14 @@ resource "aws_instance" "mi_instancia" {
     Name     = "EC2- ${each.key}"
   }
 }
+
+resource "aws_cloudwatch_log_group" "ec2_log_group" {
+  for_each = var.service_names
+  tags = {
+    Environment = "test"
+    Service     = each.key
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
